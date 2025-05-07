@@ -1,17 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Producto } from './producto.modelo';
+import { catchError, map, Observable, of } from 'rxjs';
+import { Producto, ProductoAPI } from './producto.modelo';
 @Injectable({
   providedIn: 'root'
 })
 export class GetProductosService {
 
-  private productoUrl = '/api/productos'; // Replace with your API URL
-
+  private productoUrl = '/api/productos';
   constructor(private http: HttpClient) { }
 
   getData(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.productoUrl);
+  
+    return this.http.get<ProductoAPI[]>(this.productoUrl).pipe(
+      map(res => {
+        // Transformar la respuesta a un array de Producto
+          return res.map(
+            item=> ({
+              nombre: item.nombre,
+              precio: item.precio,
+            })) as Producto[];     
+      }),
+      catchError((error)=>{
+        console.error('Error al obtener los productos', error);
+        // Retornar un array vacío en caso de error
+        return of([]); 
+      })
+    );
   }
 }

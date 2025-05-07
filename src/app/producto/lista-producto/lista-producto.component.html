@@ -1,0 +1,7 @@
+<h1>Lista de Productos</h1>
+
+<div *ngFor="let item of productos$ | async">
+    <h2>{{ item.nombre }}</h2>
+    <p>Precio: {{ item.precio }}</p>
+</div>
+
