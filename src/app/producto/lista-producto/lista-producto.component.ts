@@ -8,7 +8,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-lista-producto',
   imports: [CommonModule],
   templateUrl: './lista-producto.component.html',
-  styleUrl: './lista-producto.component.scss'
+  styleUrl: './lista-producto.component.scss',
+  standalone: true
 })
 export class ListaProductoComponent implements OnInit {
   productos$: Observable<Producto[]> | undefined;
